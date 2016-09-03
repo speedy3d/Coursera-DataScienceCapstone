@@ -22,7 +22,7 @@ First we will load the data, which was already downloaded to our computer, as we
 * en_US.twitter.txt
 
 ```{r}
-#Load the  libraries
+#Load the libraries
 library(stringi)
 
 #Load the files
@@ -30,20 +30,27 @@ file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataF
 file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt"
 file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
 
-dataset_blogs <- readLines(file_blogs, encoding='UTF-8')
-dataset_news <- readLines(file_news, encoding='UTF-8')
-dataset_twitter <- readLines(file_twitter, encoding='UTF-8')
+dataset_blogs <- readLines(file_blogs, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+dataset_news <- readLines(file_news, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+dataset_twitter <- readLines(file_twitter, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 ```
 
 ## Statistics - Exploring the Data
 
-You can also embed plots, for example:
+First, let's take a look at some of the basics. We will determine both the size of the files as well as the line and character counts of each.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+### File Sizes
+
+```{r}
+#Get file sizes in MB
+file.info(file_blogs)$size / 1024 / 1024
+file.info(file_news)$size / 1024 / 1024
+file.info(file_twitter)$size / 1024 / 1024
+stri_stats_general(dataset_blogs)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### Line Counts
+
 
 ## References
 
