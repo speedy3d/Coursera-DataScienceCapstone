@@ -83,6 +83,14 @@ stri_stats_latex(dataset_news)
 stri_stats_latex(dataset_twitter)
 ```
 
+## Analyzing the Data
+
+Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common words and word pairs (bigrams).
+
+```{r}
+qplot(stri_count_words(dataset_news))
+```
+
 From these statics we can see that the blogs and twitter files have the most words whereas the news file has a much lower word count and line count. The twitter file has the largest number of lines, probably due to the nature of twitter itself as it is designed for microbloging a couple of lines at a time with a 140 character max per tweet.  
 
 ## References
