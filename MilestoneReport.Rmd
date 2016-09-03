@@ -43,17 +43,33 @@ First, let's take a look at some of the basics. We will determine both the size 
 
 ```{r}
 #Get file sizes in MB
-size_blogs <- file.info(file_blogs)$size / 1024 / 1024
-size_news <- file.info(file_news)$size / 1024 / 1024
-size_twitter <- file.info(file_twitter)$size / 1024 / 1024
+size_blogs <- format(round(file.info(file_blogs)$size / 1024 / 1024, digits=1), nsmall=2)
+size_news <- format(round(file.info(file_news)$size / 1024 / 1024, digits=1), nsmall=2)
+size_twitter <- format(round(file.info(file_twitter)$size / 1024 / 1024, digits=1), nsmall=2)
 
 #Print sizes in table for easy reading
-data <- as.table(matrix(c(size_blogs, size_news, size_twitter)))
-colnames(data) <- c("File Size in MB")
-rownames(data) <- c("Blogs File", "News File", "Twitter File")
+data_size <- as.table(matrix(c(size_blogs, size_news, size_twitter)))
+colnames(data_size) <- c("File Size in MB")
+rownames(data_size) <- c("Blogs File", "News File", "Twitter File")
+data_size
 ```
 
 ### Line Counts
+
+We will now determine the number of lines for each data file. 
+
+```{r}
+#Get the number of lines per file
+lines_blogs <- length(dataset_blogs)
+lines_news <- length(dataset_news)
+lines_twitter <- length(dataset_twitter)
+
+#Print number of lines in table for easy reading
+data_lines <- as.table(matrix(c(lines_blogs, lines_news, lines_twitter)))
+colnames(data_lines) <- c("Number of lines")
+rownames(data_lines) <- c("Blogs File", "News File", "Twitter File")
+data_lines
+```
 
 
 ## References
