@@ -22,9 +22,13 @@ First we will load the data, which was already downloaded to our computer, as we
 * en_US.twitter.txt
 
 ```{r}
-file_blogs = "en_US.blogs.txt"
+file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt"
+file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt"
+file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
 
 dataset_blogs <- readLines(file_blogs)
+dataset_news <- readLines(file_news)
+dataset_twitter <- readLines(file_twitter)
 ```
 
 ## Including Plots
