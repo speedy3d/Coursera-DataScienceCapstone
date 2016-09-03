@@ -35,11 +35,13 @@ dataset_news <- readLines(file_news, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 dataset_twitter <- readLines(file_twitter, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 ```
 
-## Statistics - Exploring the Data
+## Basic Statistics - Exploring the Data
 
-First, let's take a look at some of the basics. We will determine both the size of the files as well as the line and character counts of each.
+First, let's take a look at some of the basics.
 
 ### File Sizes
+
+We will first determine the size of the files, in megabytes, to get a basic idea how large these files are.
 
 ```{r}
 #Get file sizes in MB, divided until bytes are megabytes
