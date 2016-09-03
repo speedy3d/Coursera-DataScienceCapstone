@@ -149,10 +149,22 @@ dataset_twitter &lt;- readLines(file_twitter, encoding='UTF-8', warn=FALSE, skip
 <div id="statistics---exploring-the-data" class="section level2">
 <h2>Statistics - Exploring the Data</h2>
 <p>First, let’s take a look at some of the basics. We will determine both the size of the files as well as the line and character counts of each.</p>
+<div id="file-sizes" class="section level3">
+<h3>File Sizes</h3>
+<pre class="r"><code>#Get file sizes in MB
+file.info(file_blogs)$size / 1024 / 1024</code></pre>
+<pre><code>## [1] 200.4242</code></pre>
+<pre class="r"><code>file.info(file_news)$size / 1024 / 1024</code></pre>
+<pre><code>## [1] 196.2775</code></pre>
+<pre class="r"><code>file.info(file_twitter)$size / 1024 / 1024</code></pre>
+<pre><code>## [1] 159.3641</code></pre>
 <pre class="r"><code>stri_stats_general(dataset_blogs)</code></pre>
 <pre><code>##       Lines LinesNEmpty       Chars CharsNWhite 
 ##      899288      899288   206824382   170389539</code></pre>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+</div>
+<div id="line-counts" class="section level3">
+<h3>Line Counts</h3>
+</div>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>

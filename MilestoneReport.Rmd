@@ -43,10 +43,14 @@ First, let's take a look at some of the basics. We will determine both the size 
 
 ```{r}
 #Get file sizes in MB
-file.info(file_blogs)$size / 1024 / 1024
-file.info(file_news)$size / 1024 / 1024
-file.info(file_twitter)$size / 1024 / 1024
-stri_stats_general(dataset_blogs)
+size_blogs <- file.info(file_blogs)$size / 1024 / 1024
+size_news <- file.info(file_news)$size / 1024 / 1024
+size_twitter <- file.info(file_twitter)$size / 1024 / 1024
+
+#Print sizes in table
+data <- as.table(matrix(c(size_blogs, size_news, size_twitter)))
+colnames(data) <- c("Size in MB")
+rownames(data) <- c("Blogs File", "News File", "Twitter File")
 ```
 
 ### Line Counts
