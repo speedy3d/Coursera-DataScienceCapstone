@@ -42,7 +42,7 @@ First, let's take a look at some of the basics. We will determine both the size 
 ### File Sizes
 
 ```{r}
-#Get file sizes in MB
+#Get file sizes in MB, divided until bytes are megabytes
 size_blogs <- format(round(file.info(file_blogs)$size / 1024 / 1024, digits=1), nsmall=2)
 size_news <- format(round(file.info(file_news)$size / 1024 / 1024, digits=1), nsmall=2)
 size_twitter <- format(round(file.info(file_twitter)$size / 1024 / 1024, digits=1), nsmall=2)
@@ -71,6 +71,17 @@ rownames(data_lines) <- c("Blogs File", "News File", "Twitter File")
 data_lines
 ```
 
+### Word Counts
+
+Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters.
+
+```{r}
+stri_stats_latex(dataset_blogs)
+stri_stats_latex(dataset_news)
+stri_stats_latex(dataset_twitter)
+```
+
+From these statics we can see that the blogs and twitter files have the most words whereas the news file has a much lower word count and line count. The twitter file has the largest number of lines, probably due to the nature of twitter itself as it is designed for microbloging a couple of lines at a time with a 140 character max per tweet.  
 
 ## References
 

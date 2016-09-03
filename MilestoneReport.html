@@ -151,20 +151,59 @@ dataset_twitter &lt;- readLines(file_twitter, encoding='UTF-8', warn=FALSE, skip
 <p>First, let’s take a look at some of the basics. We will determine both the size of the files as well as the line and character counts of each.</p>
 <div id="file-sizes" class="section level3">
 <h3>File Sizes</h3>
-<pre class="r"><code>#Get file sizes in MB
-file.info(file_blogs)$size / 1024 / 1024</code></pre>
-<pre><code>## [1] 200.4242</code></pre>
-<pre class="r"><code>file.info(file_news)$size / 1024 / 1024</code></pre>
-<pre><code>## [1] 196.2775</code></pre>
-<pre class="r"><code>file.info(file_twitter)$size / 1024 / 1024</code></pre>
-<pre><code>## [1] 159.3641</code></pre>
-<pre class="r"><code>stri_stats_general(dataset_blogs)</code></pre>
-<pre><code>##       Lines LinesNEmpty       Chars CharsNWhite 
-##      899288      899288   206824382   170389539</code></pre>
+<pre class="r"><code>#Get file sizes in MB, divided until bytes are megabytes
+size_blogs &lt;- format(round(file.info(file_blogs)$size / 1024 / 1024, digits=1), nsmall=2)
+size_news &lt;- format(round(file.info(file_news)$size / 1024 / 1024, digits=1), nsmall=2)
+size_twitter &lt;- format(round(file.info(file_twitter)$size / 1024 / 1024, digits=1), nsmall=2)
+
+#Print sizes in table for easy reading
+data_size &lt;- as.table(matrix(c(size_blogs, size_news, size_twitter)))
+colnames(data_size) &lt;- c(&quot;File Size in MB&quot;)
+rownames(data_size) &lt;- c(&quot;Blogs File&quot;, &quot;News File&quot;, &quot;Twitter File&quot;)
+data_size</code></pre>
+<pre><code>##              File Size in MB
+## Blogs File   200.40         
+## News File    196.30         
+## Twitter File 159.40</code></pre>
 </div>
 <div id="line-counts" class="section level3">
 <h3>Line Counts</h3>
+<p>We will now determine the number of lines for each data file.</p>
+<pre class="r"><code>#Get the number of lines per file
+lines_blogs &lt;- length(dataset_blogs)
+lines_news &lt;- length(dataset_news)
+lines_twitter &lt;- length(dataset_twitter)
+
+#Print number of lines in table for easy reading
+data_lines &lt;- as.table(matrix(c(lines_blogs, lines_news, lines_twitter)))
+colnames(data_lines) &lt;- c(&quot;Number of lines&quot;)
+rownames(data_lines) &lt;- c(&quot;Blogs File&quot;, &quot;News File&quot;, &quot;Twitter File&quot;)
+data_lines</code></pre>
+<pre><code>##              Number of lines
+## Blogs File            899288
+## News File              77259
+## Twitter File         2360148</code></pre>
 </div>
+</div>
+<div id="word-counts" class="section level2">
+<h2>Word Counts</h2>
+<p>Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters.</p>
+<pre class="r"><code>stri_stats_latex(dataset_blogs)</code></pre>
+<pre><code>##     CharsWord CharsCmdEnvir    CharsWhite         Words          Cmds 
+##     162464653             9      42636700      37570839             3 
+##        Envirs 
+##             0</code></pre>
+<pre class="r"><code>stri_stats_latex(dataset_news)</code></pre>
+<pre><code>##     CharsWord CharsCmdEnvir    CharsWhite         Words          Cmds 
+##      12476453             0       3096618       2651432             0 
+##        Envirs 
+##             0</code></pre>
+<pre class="r"><code>stri_stats_latex(dataset_twitter)</code></pre>
+<pre><code>##     CharsWord CharsCmdEnvir    CharsWhite         Words          Cmds 
+##     125570778          3032      35958529      30451170           963 
+##        Envirs 
+##             0</code></pre>
+<p>From these statics we can see that the blogs and twitter files have the most words whereas the news file has a much lower word count and line count. The twitter file has the largest number of lines, probably due to the nature of twitter itself as it is designed for microbloging a couple of lines at a time with a 140 character max per tweet.</p>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
