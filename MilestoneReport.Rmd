@@ -1,0 +1,42 @@
+---
+title: "Data Science Capstone - Milestone Report"
+author: "Ryan Wissman"
+date: "September 3, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Summary
+
+The purpose of this document is to describe and summarize the data found within the SwiftKey text data set. Here, I will outline some brief exploratory data analysis of the blogs, twitter, and news datasets as well as provide some initial analysis. This is the first part of the Coursera Data Science capstone and is the first step in creating my prediction algorithm.   
+
+## Loading the Dataset
+
+First we will load the data, which was already downloaded to our computer, as well as any prerequisite libraries. The three basic files that we will use for this analysis are as follows: 
+
+* en_US.blogs.txt
+* en_US.news.txt
+* en_US.twitter.txt
+
+```{r}
+file_blogs = "en_US.blogs.txt"
+
+dataset_blogs <- readLines(file_blogs)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## References
+
+This report uses the SwiftKey dataset which can be downloaded here: http://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip 
