@@ -47,9 +47,9 @@ size_blogs <- file.info(file_blogs)$size / 1024 / 1024
 size_news <- file.info(file_news)$size / 1024 / 1024
 size_twitter <- file.info(file_twitter)$size / 1024 / 1024
 
-#Print sizes in table
+#Print sizes in table for easy reading
 data <- as.table(matrix(c(size_blogs, size_news, size_twitter)))
-colnames(data) <- c("Size in MB")
+colnames(data) <- c("File Size in MB")
 rownames(data) <- c("Blogs File", "News File", "Twitter File")
 ```
 
