@@ -22,16 +22,20 @@ First we will load the data, which was already downloaded to our computer, as we
 * en_US.twitter.txt
 
 ```{r}
+#Load the  libraries
+library(stringi)
+
+#Load the files
 file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt"
 file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt"
 file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
 
-dataset_blogs <- readLines(file_blogs)
-dataset_news <- readLines(file_news)
-dataset_twitter <- readLines(file_twitter)
+dataset_blogs <- readLines(file_blogs, encoding='UTF-8')
+dataset_news <- readLines(file_news, encoding='UTF-8')
+dataset_twitter <- readLines(file_twitter, encoding='UTF-8')
 ```
 
-## Including Plots
+## Statistics - Exploring the Data
 
 You can also embed plots, for example:
 
