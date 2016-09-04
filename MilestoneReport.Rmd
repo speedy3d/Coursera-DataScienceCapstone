@@ -183,13 +183,15 @@ uni_tdm <- (removeSparseTerms(uni_tdm, 0.9999))
 
 #Get the frequency of words (unigrams)
 uni_frequency <- sort(rowSums(as.matrix(uni_tdm)), decreasing=TRUE)
+unigrams <- data.frame(word = names(uni_frequency), frequency = uni_frequency)
 ```
 
 Let's create a plot of the frequency of unigrams:
 
 ```{r}
-barplot(uni_frequency, col="light blue",
-        main="Highest Frequency Unigrams", xlab="Word", ylab="Frequency")
+barplot(unigrams[1:20,2], col="light blue",
+        main="Highest Frequency Unigrams", xlab="Word", ylab="Frequency",
+        names.arg = unigrams[1:20,1])
 ```
 
 This matches up nicely with the word cloud that we created, it seems that we are on the right path. Please note that words like **and** are missing as they are sopwords and were removed for this exercise. 
@@ -200,24 +202,26 @@ Now let's determine the frequency of the most common bigrams (word pairs) using 
 
 ```{r}
 #Unigram tonkenizer, code adapted from R FAQ on bigrams, see references
-UnigramTokenizer <- function(x) unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
-uni_tdm <- TermDocumentMatrix(clean_corpus, control = list(tokenize = UnigramTokenizer))
+BigramTokenizer <- function(x) unlist(lapply(ngrams(words(x), 2), paste, collapse = " "), use.names = FALSE)
+bi_tdm <- TermDocumentMatrix(clean_corpus, control = list(tokenize = BigramTokenizer))
 
 #Memory will overload if we do not remove terms with low frequency
-uni_tdm <- (removeSparseTerms(uni_tdm, 0.9999))
+bi_tdm <- (removeSparseTerms(bi_tdm, 0.9999))
 
-#Get the frequency of words (unigrams)
-uni_frequency <- sort(rowSums(as.matrix(uni_tdm)), decreasing=TRUE)
+#Get the frequency of words (bigrams)
+bi_frequency <- sort(rowSums(as.matrix(bi_tdm)), decreasing=TRUE)
+bigrams <- data.frame(word = names(bi_frequency), frequency = bi_frequency)
 ```
 
 Let's create a plot of the frequency of unigrams:
 
 ```{r}
-barplot(uni_frequency, col="light blue",
-        main="Highest Frequency Unigrams", xlab="Word", ylab="Frequency")
+barplot(bigrams[1:10,2], col="light green",
+        main="Highest Frequency Bigrams", xlab="Word", ylab="Frequency", 
+        names.arg = bigrams[1:10,1])
 ```
 
-This matches up nicely with the word cloud that we created, it seems that we are on the right path. Please note that words like **and** are missing as they are sopwords and were removed for this exercise. 
+## Conclusion
 
 
 ## References
