@@ -171,7 +171,7 @@ The next step before creating our prediction algorithm, and to assist with explo
 
 ### Unigrams
 
-First we will use the functionality found within the tm package to create a Term Document Matrix. A Term Document Matrix is used to better understand our data and assist us in analyzing the frequency of words. First we will create a Term Document Matrix and use it for unigrams tokenization. 
+First we will use the functionality found within the tm package to create a Term Document Matrix. A Term Document Matrix is used to better understand our data and assist us in analyzing the frequency of words. First we will create a Term Document Matrix and use it for unigrams tokenization. We can then use this to determine the top 20 highest frequency words.
 
 ```{r}
 #Unigram tonkenizer, code adapted from R FAQ on bigrams, see references
@@ -179,19 +179,19 @@ UnigramTokenizer <- function(x) unlist(lapply(ngrams(words(x), 1), paste, collap
 uni_tdm <- TermDocumentMatrix(clean_corpus, control = list(tokenize = UnigramTokenizer))
 
 #Memory will overload if we do not remove terms with low frequency
-uni_tdm <- (removeSparseTerms(uni_tdm, 0.9999))
+uni_tdm <- (removeSparseTerms(uni_tdm, 0.98))
 
 #Get the frequency of words (unigrams)
 uni_frequency <- sort(rowSums(as.matrix(uni_tdm)), decreasing=TRUE)
 unigrams <- data.frame(word = names(uni_frequency), frequency = uni_frequency)
 ```
 
-Let's create a plot of the frequency of unigrams:
+Let's create a plot of the frequency of unigrams, top 20:
 
 ```{r}
-barplot(unigrams[1:20,2], col="light blue",
-        main="Highest Frequency Unigrams", xlab="Word", ylab="Frequency",
-        names.arg = unigrams[1:20,1])
+barplot(unigrams[1:20,2], col="blue",
+        main="Highest Frequency Unigrams (Top 20)", ylab="Frequency",
+        las=2, names.arg = unigrams[1:20,1])
 ```
 
 This matches up nicely with the word cloud that we created, it seems that we are on the right path. Please note that words like **and** are missing as they are sopwords and were removed for this exercise. 
@@ -216,12 +216,17 @@ bigrams <- data.frame(word = names(bi_frequency), frequency = bi_frequency)
 Let's create a plot of the frequency of unigrams:
 
 ```{r}
-barplot(bigrams[1:10,2], col="light green",
-        main="Highest Frequency Bigrams", xlab="Word", ylab="Frequency", 
-        names.arg = bigrams[1:10,1])
+barplot(bigrams[1:20,2], col="dark blue",
+        main="Highest Frequency Bigrams (Top 20)", ylab="Frequency", 
+        las=2, names.arg = bigrams[1:20,1])
 ```
 
 ## Conclusion
+
+After analyzing this data I will design my prediction model by doing the following:
+
+*Improve sample size (this was kept very small now for ease of processing)
+*Output datasets into files (so that )
 
 
 ## References
