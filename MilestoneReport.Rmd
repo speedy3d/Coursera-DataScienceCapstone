@@ -93,17 +93,19 @@ data_stats
 It would also be useful to create a plot to visualize which file contains the most words, since words are what we will primarily be focusing on for this project. 
 
 ```{r}
+#Order the data for column chart
+data_stats <- data_stats[order(data_stats$Words),]
 barplot(data_stats$Words, names.arg = c("Blogs File", "News File", "Twitter File"), col="blue",
-        main="Number of Words per File", ylab="Number of Words", xlab="File Name")
-
+        main="Number of Words in Each File", ylab="Number of Words", xlab="File Name")
 ```
-
 
 ## Analyzing the Data
 
 From these statics we can see that the blogs and twitter files have the most words whereas the news file has a much lower word count and line count. The twitter file has the largest number of lines, probably due to the nature of twitter itself as it is designed for microbloging a couple of lines at a time with a 140 character max per tweet.  
 
 Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common individual words and word pairs (bigrams).
+
+First we will need to combine these three files into one corpus. We wil use the tm package to assist with the data cleaning and transformation.
 
 ```{r}
 ##qplot(stri_count_words(dataset_news))
