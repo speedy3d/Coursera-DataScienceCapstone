@@ -25,6 +25,7 @@ First we will load the data, which was already downloaded to our computer, as we
 #Load the libraries
 library(stringi)
 library(tm)
+library(wordcloud)
 
 #Load the files
 file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt"
@@ -108,20 +109,21 @@ Next we will dive a little deeper to determine try and gleen some more useful in
 
 ### Create Sample and Combine Files
 
-First we will need to combine these three files into one clean corpus. We wil use the tm package to assist with the data cleaning and transformation. We will also take a small sample of all three files to ease with data processing and corpus creation. Otherwise, the files created become too large for working memory (16GB). We will take about 5% of the data from each file. 
+First we will need to combine these three files into one clean corpus. We wil use the tm package to assist with the data cleaning and transformation. We will also take a small sample of all three files to ease with data processing and corpus creation. Otherwise, the files created become too large for working memory (16GB). We will take about 3% of the data from each file. 
 
 To process these data we will do the following: 
 
 *Remove unneeded punctuation marks
 *Remove numbers
 *Remove extra whitespace
+*Remove stopwords
 *Convert to lowercase only
 
 ```{r}
-#Create small samples (5%) of all three datasets
-sample_blogs <- readLines(file_blogs, (lines_blogs*0.05), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
-sample_news <- readLines(file_news, (lines_news*0.05), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
-sample_twitter <- readLines(file_twitter, (lines_twitter*0.05), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+#Create small samples (3%) of all three datasets, this greatly speeds up processing
+sample_blogs <- readLines(file_blogs, (lines_blogs*0.03), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_news <- readLines(file_news, (lines_news*0.03), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_twitter <- readLines(file_twitter, (lines_twitter*0.03), encoding='UTF-8')
 
 #Merge the three data sets
 dataset_sample <- c(sample_blogs, sample_news, sample_twitter)
@@ -129,6 +131,9 @@ dataset_sample <- c(sample_blogs, sample_news, sample_twitter)
 #Create a clean corpus sample of all three files
 corpus_vector <- VectorSource(dataset_sample)
 clean_corpus <- Corpus(corpus_vector)
+
+#Make sure encoding is correct and clean some issues related to emojis in the dataset
+clean_corpus <- tm_map(clean_corpus, function(x) iconv(x, to='UTF-8', sub='byte'))
 
 #Clean punctuation marks
 clean_corpus <- tm_map(clean_corpus, removePunctuation)
@@ -139,11 +144,25 @@ clean_corpus <- tm_map(clean_corpus, removeNumbers)
 #Remove extra whitespace
 clean_corpus <- tm_map (clean_corpus, stripWhitespace)
 
-#convert all letters to lowercase
-clean_corpus <- tm_map(clean_corpus, tolower)
+#Remove english stopwords
+clean_corpus <- tm_map(clean_corpus, removeWords, stopwords("english"))
+
+#Convert all letters to lowercase
+clean_corpus <- tm_map(clean_corpus, content_transformer(tolower))
+
+#Convert to a plaintext document
+clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 ```
 
+### Plot Common Words
 
+Now that we have cleaned the data we can now create a couple of simple plots to find the most common words. Let's use a word cloud to determine which words have the highest frequency in the dataset. We need to use the wordcloud package to acomplish this easily. 
+
+```{r}
+wordcloud(clean_corpus, max.words = 65, colors=brewer.pal(6, "Set2"))
+```
+
+We can see from the word cloud most common words are things like *the*, *like*, and *will*.
 
 ## References
 
