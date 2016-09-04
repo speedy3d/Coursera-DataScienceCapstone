@@ -107,12 +107,13 @@ From these statics we can see that the blogs and twitter files have the most wor
 
 Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common individual words and word pairs (bigrams).
 
-### Create Sample and Combine Files
+### Create Sample Dataset and Combine Files
 
 First we will need to combine these three files into one clean corpus. We wil use the tm package to assist with the data cleaning and transformation. We will also take a small sample of all three files to ease with data processing and corpus creation. Otherwise, the files created become too large for working memory (16GB). We will take about 3% of the data from each file. 
 
 To process these data we will do the following: 
 
+*Clean emoji encoding issues
 *Remove unneeded punctuation marks
 *Remove numbers
 *Remove extra whitespace
@@ -156,13 +157,13 @@ clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 
 ### Plot Common Words
 
-Now that we have cleaned the data we can now create a couple of simple plots to find the most common words. Let's use a word cloud to determine which words have the highest frequency in the dataset. We need to use the wordcloud package to acomplish this easily. 
+Now that we have cleaned the data we can now create a couple of simple plots to find the most common words. Let's use a word cloud to determine which words have the highest frequency in the dataset. We need to use the wordcloud package to acomplish this easily. This word cloud is showing the 75 most frequent words.
 
 ```{r}
-wordcloud(clean_corpus, max.words = 65, colors=brewer.pal(6, "Set2"))
+wordcloud(clean_corpus, max.words = 75, colors=brewer.pal(5, "Set1"))
 ```
 
-We can see from the word cloud most common words are things like *the*, *like*, and *will*.
+We can see from the word cloud most common words are things like *the*, *like*, *just*, *get*, and *will*.
 
 ## References
 
