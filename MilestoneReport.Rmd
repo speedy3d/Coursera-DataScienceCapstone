@@ -106,16 +106,30 @@ From these statics we can see that the blogs and twitter files have the most wor
 
 Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common individual words and word pairs (bigrams).
 
-### Combine Files
+### Create Sample and Combine Files
 
-First we will need to combine these three files into one clean corpus. We wil use the tm package to assist with the data cleaning and transformation. TO process these data we will do the following:
+First we will need to combine these three files into one clean corpus. We wil use the tm package to assist with the data cleaning and transformation. We will also take a small sample of all three files to ease with data processing and corpus creation. Otherwise, the files created become too large for working memory (16GB). We will take about 5% of the data from each file. 
+
+To process these data we will do the following: 
+
+*Remove unneeded punctuation marks
+*Remove numbers
+*Remove whitespace
+*Convert to lowercase only
 
 ```{r}
+#Create small samples (5%) of all three datasets
+
+
 #Merge the three data sets
 dataset_complete <- c(dataset_blogs, dataset_news, dataset_twitter)
 
-#Create a clean corpus of all three files
+#Create a clean corpus sample of all three files
+corpus_vector <- VectorSource(dataset_complete)
+clean_corpus <- Corpus(corpus_vector)
 
+#Clean punctuation marks
+clean_corpus <- tm_map(clean_corpus, removePunctuation)
 ```
 
 
