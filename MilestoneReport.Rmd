@@ -75,12 +75,19 @@ data_lines
 
 ### Word Counts
 
-Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters.
+Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters. *We will primarily focus on the "Words" column as this will show us how many words are in each file.* 
 
 ```{r}
-stri_stats_latex(dataset_blogs)
-stri_stats_latex(dataset_news)
-stri_stats_latex(dataset_twitter)
+#Determine stats using stri_stats_latex
+stats_blogs <- stri_stats_latex(dataset_blogs)
+stats_news <- stri_stats_latex(dataset_news)
+stats_twitter <- stri_stats_latex(dataset_twitter)
+
+#Print in table for easier reading
+data_stats <- rbind(stats_blogs, stats_news, stats_twitter)
+data_stats <- as.data.frame(data_stats)
+rownames(data_stats) <- c("Blogs File", "News File", "Twitter File")
+data_stats
 ```
 
 ## Analyzing the Data
