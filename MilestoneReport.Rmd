@@ -24,6 +24,7 @@ First we will load the data, which was already downloaded to our computer, as we
 ```{r}
 #Load the libraries
 library(stringi)
+library(tm)
 
 #Load the files
 file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt"
@@ -96,7 +97,7 @@ It would also be useful to create a plot to visualize which file contains the mo
 #Order the data for column chart
 data_stats <- data_stats[order(data_stats$Words),]
 barplot(data_stats$Words, names.arg = c("Blogs File", "News File", "Twitter File"), col="blue",
-        main="Number of Words in Each File", ylab="Number of Words", xlab="File Name")
+        main="Number of Words in Each File", xlab="File Name")
 ```
 
 ## Analyzing the Data
@@ -105,10 +106,16 @@ From these statics we can see that the blogs and twitter files have the most wor
 
 Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common individual words and word pairs (bigrams).
 
-First we will need to combine these three files into one corpus. We wil use the tm package to assist with the data cleaning and transformation.
+### Combine Files
+
+First we will need to combine these three files into one clean corpus. We wil use the tm package to assist with the data cleaning and transformation. TO process these data we will do the following:
 
 ```{r}
-##qplot(stri_count_words(dataset_news))
+#Merge the three data sets
+dataset_complete <- c(dataset_blogs, dataset_news, dataset_twitter)
+
+#Create a clean corpus of all three files
+
 ```
 
 
