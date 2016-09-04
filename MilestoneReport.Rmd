@@ -165,23 +165,24 @@ wordcloud(clean_corpus, max.words = 75, colors=brewer.pal(5, "Set1"))
 
 We can see from the word cloud most common words are things like **the**, **like**, **just**, **get**, and **can**.
 
-##N-Gram Tokenization
+##N-Grams
 
 The next step before creating our prediction algorithm, and to assist with exploring the data, we will create a function to tokenize n-grams. N-grams ar: *"a contiguous sequence of n items from a given sequence of text or speech."* We can then use the function to find the top unigrams and bigrams (one word and two word pairs).
 
-### Term Document Matrix
+### Unigrams
 
-Firt we will use the functionality found within the tm package to create a Term Document Matrix. A Term Document Matrix is used to better understand our data and assist us in analyzing the frequency of words. 
-
-```{r}
-data_tdm <- TermDocumentMatrix(clean_corpus)
-```
-
-### Tokenization
-
-Now that we have the Term Document Matrix we can tokenize our data into unigrams and bigrams more easily. 
+Firt we will use the functionality found within the tm package to create a Term Document Matrix. A Term Document Matrix is used to better understand our data and assist us in analyzing the frequency of words. First we will create a Term Document Matrix and use it for unigrams tokenization. 
 
 ```{r}
+#Unigram tonkenizer, code adapted from R FAQ on bigrams, see references
+UnigramTokenizer <- function(x) unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
+uni_tdm <- TermDocumentMatrix(clean_corpus, control = list(tokenize = UnigramTokenizer))
+
+#Memory will overload if we do not remove terms with low frequency
+uni_tdm <- (removeSparseTerms(uni_tdm, 0.95))
+
+#Get the frequency of words 
+uni_frequency <- sort(rowSums(as.matrix(uni_tdm)), decreasing=TRUE)
 
 ```
 
@@ -189,3 +190,4 @@ Now that we have the Term Document Matrix we can tokenize our data into unigrams
 
 * This report uses the SwiftKey dataset which can be downloaded here: http://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip 
 * Wikipedia page on n-gram: https://en.wikipedia.org/wiki/N-gram 
+* Bigram R code: http://tm.r-forge.r-project.org/faq.html#Bigrams 
