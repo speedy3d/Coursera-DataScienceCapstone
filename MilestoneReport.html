@@ -146,11 +146,12 @@ dataset_blogs &lt;- readLines(file_blogs, encoding='UTF-8', warn=FALSE, skipNul=
 dataset_news &lt;- readLines(file_news, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 dataset_twitter &lt;- readLines(file_twitter, encoding='UTF-8', warn=FALSE, skipNul=TRUE)</code></pre>
 </div>
-<div id="statistics---exploring-the-data" class="section level2">
-<h2>Statistics - Exploring the Data</h2>
-<p>First, let’s take a look at some of the basics. We will determine both the size of the files as well as the line and character counts of each.</p>
+<div id="basic-statistics---exploring-the-data" class="section level2">
+<h2>Basic Statistics - Exploring the Data</h2>
+<p>First, let’s take a look at some of the basics.</p>
 <div id="file-sizes" class="section level3">
 <h3>File Sizes</h3>
+<p>We will first determine the size of the files, in megabytes, to get a basic idea how large these files are.</p>
 <pre class="r"><code>#Get file sizes in MB, divided until bytes are megabytes
 size_blogs &lt;- format(round(file.info(file_blogs)$size / 1024 / 1024, digits=1), nsmall=2)
 size_news &lt;- format(round(file.info(file_news)$size / 1024 / 1024, digits=1), nsmall=2)
@@ -184,26 +185,30 @@ data_lines</code></pre>
 ## News File              77259
 ## Twitter File         2360148</code></pre>
 </div>
+<div id="word-counts" class="section level3">
+<h3>Word Counts</h3>
+<p>Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters. <strong>We will primarily focus on the “Words” column as this will show us how many words are in each file.</strong></p>
+<pre class="r"><code>#Determine stats using stri_stats_latex
+stats_blogs &lt;- stri_stats_latex(dataset_blogs)
+stats_news &lt;- stri_stats_latex(dataset_news)
+stats_twitter &lt;- stri_stats_latex(dataset_twitter)
+
+#Print in table for easier reading
+data_stats &lt;- rbind(stats_blogs, stats_news, stats_twitter)
+data_stats &lt;- as.data.frame(data_stats)
+rownames(data_stats) &lt;- c(&quot;Blogs File&quot;, &quot;News File&quot;, &quot;Twitter File&quot;)
+data_stats</code></pre>
+<pre><code>##              CharsWord CharsCmdEnvir CharsWhite    Words Cmds Envirs
+## Blogs File   162464653             9   42636700 37570839    3      0
+## News File     12476453             0    3096618  2651432    0      0
+## Twitter File 125570778          3032   35958529 30451170  963      0</code></pre>
 </div>
-<div id="word-counts" class="section level2">
-<h2>Word Counts</h2>
-<p>Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters.</p>
-<pre class="r"><code>stri_stats_latex(dataset_blogs)</code></pre>
-<pre><code>##     CharsWord CharsCmdEnvir    CharsWhite         Words          Cmds 
-##     162464653             9      42636700      37570839             3 
-##        Envirs 
-##             0</code></pre>
-<pre class="r"><code>stri_stats_latex(dataset_news)</code></pre>
-<pre><code>##     CharsWord CharsCmdEnvir    CharsWhite         Words          Cmds 
-##      12476453             0       3096618       2651432             0 
-##        Envirs 
-##             0</code></pre>
-<pre class="r"><code>stri_stats_latex(dataset_twitter)</code></pre>
-<pre><code>##     CharsWord CharsCmdEnvir    CharsWhite         Words          Cmds 
-##     125570778          3032      35958529      30451170           963 
-##        Envirs 
-##             0</code></pre>
+</div>
+<div id="analyzing-the-data" class="section level2">
+<h2>Analyzing the Data</h2>
 <p>From these statics we can see that the blogs and twitter files have the most words whereas the news file has a much lower word count and line count. The twitter file has the largest number of lines, probably due to the nature of twitter itself as it is designed for microbloging a couple of lines at a time with a 140 character max per tweet.</p>
+<p>Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common individual words and word pairs (bigrams).</p>
+<pre class="r"><code>##qplot(stri_count_words(dataset_news))</code></pre>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>

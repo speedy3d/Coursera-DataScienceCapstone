@@ -75,7 +75,7 @@ data_lines
 
 ### Word Counts
 
-Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters. *We will primarily focus on the "Words" column as this will show us how many words are in each file.* 
+Now we will determine how many usable words are in each file. We will do this by using the stri_stats_latex funtion that is found within the stringi library. This will also show us the number of characters. **We will primarily focus on the "Words" column as this will show us how many words are in each file.** 
 
 ```{r}
 #Determine stats using stri_stats_latex
@@ -90,6 +90,15 @@ rownames(data_stats) <- c("Blogs File", "News File", "Twitter File")
 data_stats
 ```
 
+It would also be useful to create a plot to visualize which file contains the most words, since words are what we will primarily be focusing on for this project. 
+
+```{r}
+barplot(data_stats$Words, names.arg = c("Blogs File", "News File", "Twitter File"), col="blue",
+        main="Number of Words per File", ylab="Number of Words", xlab="File Name")
+
+```
+
+
 ## Analyzing the Data
 
 From these statics we can see that the blogs and twitter files have the most words whereas the news file has a much lower word count and line count. The twitter file has the largest number of lines, probably due to the nature of twitter itself as it is designed for microbloging a couple of lines at a time with a 140 character max per tweet.  
@@ -97,7 +106,7 @@ From these statics we can see that the blogs and twitter files have the most wor
 Next we will dive a little deeper to determine try and gleen some more useful information from these files. Namely we will try to determine and plot the most common individual words and word pairs (bigrams).
 
 ```{r}
-qplot(stri_count_words(dataset_news))
+##qplot(stri_count_words(dataset_news))
 ```
 
 
