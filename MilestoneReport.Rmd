@@ -114,22 +114,33 @@ To process these data we will do the following:
 
 *Remove unneeded punctuation marks
 *Remove numbers
-*Remove whitespace
+*Remove extra whitespace
 *Convert to lowercase only
 
 ```{r}
 #Create small samples (5%) of all three datasets
-
+sample_blogs <- readLines(file_blogs, (lines_blogs*0.05), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_news <- readLines(file_news, (lines_news*0.05), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_twitter <- readLines(file_twitter, (lines_twitter*0.05), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 
 #Merge the three data sets
-dataset_complete <- c(dataset_blogs, dataset_news, dataset_twitter)
+dataset_sample <- c(sample_blogs, sample_news, sample_twitter)
 
 #Create a clean corpus sample of all three files
-corpus_vector <- VectorSource(dataset_complete)
+corpus_vector <- VectorSource(dataset_sample)
 clean_corpus <- Corpus(corpus_vector)
 
 #Clean punctuation marks
 clean_corpus <- tm_map(clean_corpus, removePunctuation)
+
+#Remove numbers
+clean_corpus <- tm_map(clean_corpus, removeNumbers)
+
+#Remove extra whitespace
+clean_corpus <- tm_map (clean_corpus, stripWhitespace)
+
+#convert all letters to lowercase
+clean_corpus <- tm_map(clean_corpus, tolower)
 ```
 
 
