@@ -94,7 +94,7 @@ data_stats
 
 It would also be useful to create a plot to visualize which file contains the most words, since words are what we will primarily be focusing on for this project. 
 
-```{r}
+```{r fig.align="center"}
 #Order the data for column chart
 data_stats <- data_stats[order(data_stats$Words),]
 barplot(data_stats$Words, names.arg = c("Blogs File", "News File", "Twitter File"), col="light blue",
@@ -159,17 +159,17 @@ clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 
 Now that we have cleaned the data we can now create a couple of simple plots to find the most common words. Let's use a word cloud to determine which words have the highest frequency in the dataset. We need to use the wordcloud package to acomplish this easily. This word cloud is showing the 75 most frequent words.
 
-```{r}
+```{r fig.align="center"}
 wordcloud(clean_corpus, max.words = 75, colors=brewer.pal(5, "Set1"))
 ```
 
-We can see from the word cloud most common words are things like **the**, **like**, **just**, **get**, and **can**.
+We can see from the word cloud most common words are things like "**the**", "**like**", "**just**", "**get**", and "**can**.""
 
 ##N-Grams
 
 The next step before creating our prediction algorithm, and to assist with exploring the data, we will create a function to tokenize n-grams. N-grams ar: *"a contiguous sequence of n items from a given sequence of text or speech."* We can then use the function to find the top unigrams and bigrams (one word and two word pairs).
 
-### Unigrams
+### Unigram Analysis
 
 First we will use the functionality found within the tm package to create a Term Document Matrix. A Term Document Matrix is used to better understand our data and assist us in analyzing the frequency of words. First we will create a Term Document Matrix and use it for unigrams tokenization. We can then use this to determine the top 20 highest frequency words.
 
@@ -188,15 +188,15 @@ unigrams <- data.frame(word = names(uni_frequency), frequency = uni_frequency)
 
 Let's create a plot of the frequency of unigrams, top 20:
 
-```{r}
+```{r fig.align="center"}
 barplot(unigrams[1:20,2], names.arg = unigrams[1:20,1], 
         col="blue", main="Highest Frequency Unigrams (Top 20)", 
         ylab="Frequency",las=2)
 ```
 
-This matches up nicely with the word cloud that we created, it seems that we are on the right path. Please note that words like **and** are missing as they are sopwords and were removed for this exercise. 
+This matches up nicely with the word cloud that we created, it seems that we are on the right path. Please note that words like "**and**"" are missing as they are stopwords and were removed for this exercise. 
 
-### Bigrams
+### Bigram Analysis
 
 Now let's determine the frequency of the most common bigrams (word pairs) using the same code as above (for unigrams), with only a slight modification. 
 
@@ -215,11 +215,13 @@ bigrams <- data.frame(word = names(bi_frequency), frequency = bi_frequency)
 
 Let's create a plot of the frequency of unigrams:
 
-```{r}
+```{r fig.align="center"}
 barplot(bigrams[1:20,2], names.arg = bigrams[1:20,1],
         col="dark blue", main="Highest Frequency Bigrams (Top 20)", 
         ylab="Frequency", las=2)
 ```
+
+According to this chart we can see some of the most common bigrams such as **i love**, **i think**, and **i dont**. This will help us with our prediction algorithm later.
 
 ## Conclusion
 
