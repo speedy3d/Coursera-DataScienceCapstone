@@ -113,12 +113,12 @@ First we will need to combine these three files into one clean corpus. We wil us
 
 To process these data we will do the following: 
 
-*Clean emoji encoding issues
-*Remove unneeded punctuation marks
-*Remove numbers
-*Remove extra whitespace
-*Remove stopwords
-*Convert to lowercase only
+* Clean emoji encoding issues
+* Remove unneeded punctuation marks
+* Remove numbers
+* Remove extra whitespace
+* Remove stopwords
+* Convert to lowercase only
 
 ```{r}
 #Create small samples (3%) of all three datasets, this greatly speeds up processing
@@ -191,7 +191,7 @@ Let's create a plot of the frequency of unigrams, top 20:
 ```{r}
 barplot(unigrams[1:20,2], names.arg = unigrams[1:20,1], 
         col="blue", main="Highest Frequency Unigrams (Top 20)", 
-        ylab="Frequency", las=2)
+        ylab="Frequency",las=2)
 ```
 
 This matches up nicely with the word cloud that we created, it seems that we are on the right path. Please note that words like **and** are missing as they are sopwords and were removed for this exercise. 
@@ -205,8 +205,8 @@ Now let's determine the frequency of the most common bigrams (word pairs) using 
 BigramTokenizer <- function(x) unlist(lapply(ngrams(words(x), 2), paste, collapse = " "), use.names = FALSE)
 bi_tdm <- TermDocumentMatrix(clean_corpus, control = list(tokenize = BigramTokenizer))
 
-#Memory will overload if we do not remove terms with low frequency
-bi_tdm <- (removeSparseTerms(bi_tdm, 0.98))
+#Memory will overload if we do not remove terms with low frequency, need to work with this number to get acceptable output
+bi_tdm <- (removeSparseTerms(bi_tdm, 0.9999))
 
 #Get the frequency of words (bigrams)
 bi_frequency <- sort(rowSums(as.matrix(bi_tdm)), decreasing=TRUE)
@@ -216,7 +216,7 @@ bigrams <- data.frame(word = names(bi_frequency), frequency = bi_frequency)
 Let's create a plot of the frequency of unigrams:
 
 ```{r}
-barplot(bigrams[1:20,2], , names.arg = bigrams[1:20,1],
+barplot(bigrams[1:20,2], names.arg = bigrams[1:20,1],
         col="dark blue", main="Highest Frequency Bigrams (Top 20)", 
         ylab="Frequency", las=2)
 ```
@@ -225,11 +225,11 @@ barplot(bigrams[1:20,2], , names.arg = bigrams[1:20,1],
 
 After analyzing this data I will design my prediction model by doing the following:
 
-*Improve sample size (this was kept very small now for ease of processing)
-*Output datasets into files (so that intensive processing only needs to be done on a file once)
-*Break the data into training and test sets
-*Focus on creating a model that will utilize high frequency words (unigrams) and word pairs (bigrams), maybe explore how trigrams can also assist
-*Base the prediction model around word frequency as described in the previous bullet point
+* Improve sample size (this was kept very small now for ease of processing)
+* Output datasets into files (so that intensive processing only needs to be done on a file once)
+* Break the data into training and test sets
+* Focus on creating a model that will utilize high frequency words (unigrams) and word pairs (bigrams), maybe explore how trigrams can also assist
+* Base the prediction model around word frequency as described in the previous bullet point
 
 
 ## References
