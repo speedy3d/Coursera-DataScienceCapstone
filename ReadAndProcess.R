@@ -13,7 +13,7 @@ file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFi
 file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
 
 #Create clean corpus
-  #Create small samples of all three datasets, this greatly speeds up processing, will use 10% of each file
+  #Use small subset of all three datasets to stay under the appropriate filesize for shiny, this also greatly speeds up processing, will use 10% of each file
   sample_blogs <- readLines(file_blogs, (lines_blogs*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
   sample_news <- readLines(file_news, (lines_news*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
   sample_twitter <- readLines(file_twitter, (lines_twitter*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
@@ -43,5 +43,14 @@ file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_Dat
   #Convert all letters to lowercase
   clean_corpus <- tm_map(clean_corpus, tolower)
   
-  #Convert to a plaintext document
-  clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
+  #Convert to a plaintext document, this should not be needed
+  #clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
+  
+#Create term document matrix
+  #Bigrams
+  tdm_bigram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = BigramTokenizer)) 
+  
+  
+#Create SQL database
+  db <- dbConnect(SQLite(), dbname="shiny-prediction-app/corpus.db")
+  dbDisconnect(db)
