@@ -22,31 +22,13 @@ processNGram <- function(theTable) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#insert results into database
+db_insert <- function(sql, key_counts)
+{
+  dbBegin(db)
+  dbGetPreparedQuery(db, sql, bind.data = key_counts)
+  dbCommit(db)
+}
 
 
 
