@@ -47,10 +47,29 @@ clean_corpus <- tm_map(clean_corpus, tolower)
 #clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 
   
-#Create term document matrix for bigrams, trigrams, and quadgrams
+#Create term document matrix for unigram, bigrams, trigrams, and quadgrams
+tdm_unigram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = UnigramTokenizer))
 tdm_bigram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = BigramTokenizer)) 
+tdm_trigram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = TrigramTokenizer))
+tdm_quadgram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = QuadgramTokenizer))
   
   
 #Create SQL database
-  db <- dbConnect(SQLite(), dbname="shiny-prediction-app/corpus.db")
-  dbDisconnect(db)
+db <- dbConnect(SQLite(), dbname="shiny-prediction-app/corpus.db")
+dbSendQuery(conn=db,
+            "CREATE TABLE NGram
+            (prediction TEXT,
+            word TEXT,
+            frequency INTEGER,
+            number INTEGER)")
+
+
+#Create word frequencies
+
+
+
+
+
+
+
+dbDisconnect(db)
