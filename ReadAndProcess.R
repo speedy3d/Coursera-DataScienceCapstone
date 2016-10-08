@@ -12,9 +12,19 @@ file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataF
 file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt"
 file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
 
+#Read files
+dataset_blogs <- readLines(file_blogs, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+dataset_news <- readLines(file_news, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+dataset_twitter <- readLines(file_twitter, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+
+#Get the number of lines per file
+lines_blogs <- length(dataset_blogs)
+lines_news <- length(dataset_news)
+lines_twitter <- length(dataset_twitter)
+
 #Create the clean corpus
 #Use small subset of all three datasets to stay under the appropriate filesize for shiny, this also greatly speeds up processing, will use 10% of each file
-sample_blogs <- readLines(file_blogs, (lines_blogs*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_blogs <- readLines(file_blogs, (lines_news*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 sample_news <- readLines(file_news, (lines_news*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 sample_twitter <- readLines(file_twitter, (lines_twitter*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 
@@ -44,7 +54,7 @@ clean_corpus <- tm_map (clean_corpus, stripWhitespace)
 clean_corpus <- tm_map(clean_corpus, tolower)
 
 #Convert to a plaintext document, this should not be needed
-#clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
+clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 
   
 #Create term document matrix for unigram, bigrams, trigrams, and quadgrams
@@ -63,6 +73,11 @@ dbSendQuery(conn=db,
             frequency INTEGER,
             number INTEGER)")
 
+#Memory will overload if we do not remove terms with low frequency
+tdm_unigram <- (removeSparseTerms(tdm_unigram, 0.98))
+tdm_bigram <- (removeSparseTerms(tdm_bigram, 0.98))
+tdm_trigram <- (removeSparseTerms(tdm_trigram, 0.98))
+tdm_quadgram <- (removeSparseTerms(tdm_quadgram, 0.98))
 
 #Create word frequencies, functions located in "Functions.R"
 freq_quadgram <- getFrequency(tdm_quadgram)
