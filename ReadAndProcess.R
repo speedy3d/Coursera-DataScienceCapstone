@@ -13,18 +13,6 @@ file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataF
 file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt"
 file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
 
-
-samplefile <- function(filename, fraction) {
-  system(paste("perl -ne 'print if (rand() < ",
-               fraction, ")'", filename), intern=TRUE)
-}
-
-
-dataset_blogs <- samplefile('F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt', .013)
-dataset_news <- samplefile('F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt', .013)
-dataset_twitter <- samplefile('F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt', .013)
-
-
 #Read files
 dataset_blogs <- readLines(file_blogs, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 dataset_news <- readLines(file_news, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
@@ -36,10 +24,10 @@ lines_news <- length(dataset_news)
 lines_twitter <- length(dataset_twitter)
 
 #Create the clean corpus
-#Use small subset of all three datasets to stay under the appropriate filesize for shiny, this also greatly speeds up processing, will use 10% of each file
-sample_blogs <- readLines(file_blogs, (lines_news*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
-sample_news <- readLines(file_news, (lines_news*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
-sample_twitter <- readLines(file_twitter, (lines_twitter*0.10), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+#Use small subset of all three datasets to stay under the appropriate filesize for shiny, this also greatly speeds up processing, will use 12% of each file
+sample_blogs <- readLines(file_blogs, (lines_news*0.12), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_news <- readLines(file_news, (lines_news*0.12), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_twitter <- readLines(file_twitter, (lines_twitter*0.12), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 
 #Merge the three data sets
 dataset_sample <- c(sample_blogs, sample_news, sample_twitter)
@@ -68,7 +56,7 @@ clean_corpus <- tm_map (clean_corpus, stripWhitespace)
 clean_corpus <- tm_map(clean_corpus, tolower)
 
 #Convert to a plaintext document, this should not be needed
-#clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
+clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 
   
 #Create term document matrix for unigram, bigrams, trigrams, and quadgrams
@@ -88,16 +76,16 @@ dbSendQuery(conn=db,
             number INTEGER)")
 
 #Memory will overload if we do not remove terms with low frequency
-tdm_unigram <- (removeSparseTerms(tdm_unigram, 0.98))
-tdm_bigram <- (removeSparseTerms(tdm_bigram, 0.98))
-tdm_trigram <- (removeSparseTerms(tdm_trigram, 0.98))
-tdm_quadgram <- (removeSparseTerms(tdm_quadgram, 0.98))
+tdm_unigram_cleaned <- (removeSparseTerms(tdm_unigram, 0.98))
+tdm_bigram_cleaned <- (removeSparseTerms(tdm_bigram, 0.999))
+tdm_trigram_cleaned <- (removeSparseTerms(tdm_trigram, 0.999))
+tdm_quadgram_cleaned <- (removeSparseTerms(tdm_quadgram, 0.9999))
 
 #Create word frequencies, functions located in "Functions.R"
-freq_quadgram <- getFrequency(tdm_quadgram)
-freq_trigram <- getFrequency(tdm_trigram)
-freq_bigram <- getFrequency(tdm_bigram)
-freq_unigram <- getFrequency(tdm_unigram)
+freq_quadgram <- getFrequency(tdm_quadgram_cleaned)
+freq_trigram <- getFrequency(tdm_trigram_cleaned)
+freq_bigram <- getFrequency(tdm_bigram_cleaned)
+freq_unigram <- getFrequency(tdm_unigram_cleaned)
 
 #Process with the word before and the current word
 processNGram <- (freq_quadgram)
