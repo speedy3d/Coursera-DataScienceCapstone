@@ -64,8 +64,11 @@ dbSendQuery(conn=db,
             number INTEGER)")
 
 
-#Create word frequencies
-
+#Create word frequencies, functions located in "Functions.R"
+freq_quadgram <- getFrequency(tdm_quadgram)
+freq_trigram <- getFrequency(tdm_trigram)
+freq_bigram <- getFrequency(tdm_bigram)
+freq_unigram <- getFrequency(tdm_unigram)
 
 
 
