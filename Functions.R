@@ -5,8 +5,12 @@ library(RWeka)
 library(data.table)
 
 
-
-
+#This function will take a TermDocumentMatrix and transform into a frequency table
+getFrequency <- function(tdm) {
+  frequency <- sort(rowSums(tdm, na.rm=TRUE), decreasing=TRUE)
+  word <- names(frequency)
+  data.table(word=word, frequency=frequency)
+}
 
 
 
