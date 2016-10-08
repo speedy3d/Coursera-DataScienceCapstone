@@ -76,10 +76,10 @@ dbSendQuery(conn=db,
              number INTEGER)")
 
 #Memory will overload if we do not remove terms with low frequency
-tdm_unigram_cleaned <- (removeSparseTerms(tdm_unigram, 0.98))
-tdm_bigram_cleaned <- (removeSparseTerms(tdm_bigram, 0.999))
-tdm_trigram_cleaned <- (removeSparseTerms(tdm_trigram, 0.999))
-tdm_quadgram_cleaned <- (removeSparseTerms(tdm_quadgram, 0.9999))
+tdm_unigram_cleaned <- (removeSparseTerms(tdm_unigram, 0.9995))
+tdm_bigram_cleaned <- (removeSparseTerms(tdm_bigram, 0.99959))
+tdm_trigram_cleaned <- (removeSparseTerms(tdm_trigram, 0.99986))
+tdm_quadgram_cleaned <- (removeSparseTerms(tdm_quadgram, 0.999957))
 
 #Create word frequencies, functions located in "Functions.R"
 freq_quadgram <- getFrequency(tdm_quadgram_cleaned)
