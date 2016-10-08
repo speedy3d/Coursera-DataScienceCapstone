@@ -77,6 +77,8 @@ processNGram <- (freq_bigram)
 processNGram <- (freq_unigram)
 
 #Insert results into database for faster processing in the application
+sql_4 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 4)"
+bulk_insert(sql_4, freq_quadgram)
 
 
 
