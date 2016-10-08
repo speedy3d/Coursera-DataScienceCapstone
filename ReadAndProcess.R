@@ -71,7 +71,12 @@ freq_bigram <- getFrequency(tdm_bigram)
 freq_unigram <- getFrequency(tdm_unigram)
 
 #Process with the word before and the current word
+processNGram <- (freq_quadgram)
+processNGram <- (freq_trigram)
+processNGram <- (freq_bigram)
+processNGram <- (freq_unigram)
 
+#Insert results into database for faster processing in the application
 
 
 
