@@ -15,7 +15,6 @@ getFrequency <- function(tdm) {
 
 #Process the nGram such that it is added to the table with a before word and the current word
 processNGram <- function(theTable) {
-  # Add to n-gram data.table pre (before word) and cur (word itself)
   theTable[, c("before", "current"):=list(unlist(strsplit(word, "[ ]+?[a-z]+$")), 
                              unlist(strsplit(word, "^([a-z]+[ ])+"))[2]), 
      by=word]
@@ -29,12 +28,6 @@ db_insert <- function(sql, key_counts)
   dbGetPreparedQuery(db, sql, bind.data = key_counts)
   dbCommit(db)
 }
-
-
-
-
-
-
 
 
 

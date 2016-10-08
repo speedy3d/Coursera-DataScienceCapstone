@@ -78,8 +78,13 @@ processNGram <- (freq_unigram)
 
 #Insert results into database for faster processing in the application
 sql_4 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 4)"
-bulk_insert(sql_4, freq_quadgram)
-
+db_insert(sql_4, freq_quadgram)
+sql_3 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 3)"
+db_insert(sql_3, freq_trigram)
+sql_2 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 2)"
+db_insert(sql_2, freq_trigram)
+sql_2 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 1)"
+db_insert(sql_1, freq_unigram)
 
 
 dbDisconnect(db)
