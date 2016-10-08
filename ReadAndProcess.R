@@ -5,12 +5,25 @@
 library(RSQLite) #Library for the associated SQL functions
 library(tm)
 library(stringi)
+library(magrittr)
 source('Functions.R')
 
 #File locations
 file_blogs = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt"
 file_news = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt"
 file_twitter = "F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt"
+
+
+samplefile <- function(filename, fraction) {
+  system(paste("perl -ne 'print if (rand() < ",
+               fraction, ")'", filename), intern=TRUE)
+}
+
+
+dataset_blogs <- samplefile('F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.blogs.txt', .013)
+dataset_news <- samplefile('F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.news.txt', .013)
+dataset_twitter <- samplefile('F:/My Documents/GitHub/Coursera-DataScienceCapstone/SwiftKey_DataFiles/en_US.twitter.txt', .013)
+
 
 #Read files
 dataset_blogs <- readLines(file_blogs, encoding='UTF-8', warn=FALSE, skipNul=TRUE)
@@ -32,8 +45,9 @@ sample_twitter <- readLines(file_twitter, (lines_twitter*0.10), encoding='UTF-8'
 dataset_sample <- c(sample_blogs, sample_news, sample_twitter)
 
 #Create a clean corpus sample of all three files
-corpus_vector <- VectorSource(dataset_sample)
-clean_corpus <- Corpus(corpus_vector)
+##corpus_vector <- VectorSource(dataset_sample)
+##clean_corpus <- Corpus(corpus_vector)
+clean_corpus <- VCorpus(VectorSource(dataset_sample))
 
 #Make sure encoding is correct and clean some issues related to emojis in the dataset
 clean_corpus <- tm_map(clean_corpus, function(x) iconv(x, to='UTF-8', sub='byte'))
@@ -54,7 +68,7 @@ clean_corpus <- tm_map (clean_corpus, stripWhitespace)
 clean_corpus <- tm_map(clean_corpus, tolower)
 
 #Convert to a plaintext document, this should not be needed
-clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
+#clean_corpus <- tm_map(clean_corpus, PlainTextDocument)
 
   
 #Create term document matrix for unigram, bigrams, trigrams, and quadgrams
