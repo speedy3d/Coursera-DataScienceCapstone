@@ -16,8 +16,8 @@ getFrequency <- function(tdm) {
 #Process the nGram such that it is added to the table with a before word and the current word
 processNGram <- function(theTable) {
   theTable[, c("before", "current"):=list(unlist(strsplit(word, "[ ]+?[a-z]+$")), 
-                             unlist(strsplit(word, "^([a-z]+[ ])+"))[2]), 
-     by=word]
+                                          unlist(strsplit(word, "^([a-z]+[ ])+"))[2]), 
+          by=word]
 }
 
 

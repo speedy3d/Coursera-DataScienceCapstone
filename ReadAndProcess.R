@@ -71,9 +71,9 @@ db <- dbConnect(SQLite(), dbname="shiny-prediction-app/corpus.db")
 dbSendQuery(conn=db,
             "CREATE TABLE NGram
             (prediction TEXT,
-            word TEXT,
-            frequency INTEGER,
-            number INTEGER)")
+             word TEXT,
+             frequency INTEGER,
+             number INTEGER)")
 
 #Memory will overload if we do not remove terms with low frequency
 tdm_unigram_cleaned <- (removeSparseTerms(tdm_unigram, 0.98))
@@ -88,10 +88,10 @@ freq_bigram <- getFrequency(tdm_bigram_cleaned)
 freq_unigram <- getFrequency(tdm_unigram_cleaned)
 
 #Process with the word before and the current word
-processNGram <- (freq_quadgram)
-processNGram <- (freq_trigram)
-processNGram <- (freq_bigram)
-processNGram <- (freq_unigram)
+processNGram(freq_quadgram)
+processNGram(freq_trigram)
+processNGram(freq_bigram)
+processNGram(freq_unigram)
 
 #Insert results into database for faster processing in the application
 sql_4 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 4)"
@@ -100,8 +100,8 @@ sql_3 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 3)"
 db_insert(sql_3, freq_trigram)
 sql_2 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 2)"
 db_insert(sql_2, freq_trigram)
-sql_2 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 1)"
+sql_1 <- "INSERT INTO NGram VALUES ($before, $current, $frequency, 1)"
 db_insert(sql_1, freq_unigram)
 
-
+#disconnect and close the database
 dbDisconnect(db)
