@@ -70,7 +70,7 @@ freq_trigram <- getFrequency(tdm_trigram)
 freq_bigram <- getFrequency(tdm_bigram)
 freq_unigram <- getFrequency(tdm_unigram)
 
-
+#Process with the word before and the current word
 
 
 

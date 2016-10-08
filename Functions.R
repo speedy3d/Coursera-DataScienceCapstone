@@ -13,6 +13,7 @@ getFrequency <- function(tdm) {
 }
 
 
+#Process the nGram such that it is added to the table with a beforeword and the current word
 
 
 
