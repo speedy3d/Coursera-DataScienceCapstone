@@ -22,7 +22,6 @@ ngramStupidBackoff <- function(raw, db) {
   strsplit(split=" ") %>%
   unlist
   
-
   #get prediction
   for (cNum in min(length(sentence), max):1) {
     foundGram <- paste(tail(sentence, cNum), collapse=" ")
