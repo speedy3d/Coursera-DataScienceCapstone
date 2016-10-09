@@ -1,0 +1,9 @@
+name: shiny-prediction-app
+account: speedy3d
+server: shinyapps.io
+appId: 130562
+bundleId: 581231
+url: https://speedy3d.shinyapps.io/shiny-prediction-app/
+when: 1476026274.39695
+asMultiple: FALSE
+asStatic: FALSE
