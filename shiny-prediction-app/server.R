@@ -11,7 +11,6 @@ library(shiny)
 library(RSQLite)
 source('prediction.R')
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   # input$text and input$action are available
   # output$sentence and output$predicted should be made available

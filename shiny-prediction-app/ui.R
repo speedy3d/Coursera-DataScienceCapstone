@@ -31,7 +31,7 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for the number of bins
   sidebarLayout(
     sidebarPanel(
-      textInput("text", label = h3("Input"), value = "happy birthday to"),
+      textInput("text", label = h3("Input"), value = "Happy"),
       helpText("Type in a sentence above, hit enter (or press the button below), and the results will display to the right."),
       submitButton("Predict next"),
       hr()

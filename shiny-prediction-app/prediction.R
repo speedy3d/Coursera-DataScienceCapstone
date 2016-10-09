@@ -23,6 +23,21 @@ ngram_backoff <- function(raw, db) {
     strsplit(split=" ") %>%
     unlist
   
+  if (length(sentence)==1){
+    gram <- paste(tail(sentence, 1), collapse=" ")
+    
+    sql <- paste("SELECT word, frequency FROM NGram WHERE ", 
+                 " prediction=='", paste(gram), "'",
+                 " AND number==", 1, " LIMIT 3", sep="")
+    res <- dbSendQuery(conn=db, sql)
+    predicted <- dbFetch(res, n=-1)
+    names(predicted) <- c("Another Possible Word", "Prediction Score")
+    print(predicted)
+    
+    if (nrow(predicted) > 0) return(predicted)
+  }
+  
+  
   #get prediction
   for (i in min(length(sentence), max):1) {
     gram <- paste(tail(sentence, i), collapse=" ")
@@ -31,7 +46,7 @@ ngram_backoff <- function(raw, db) {
                  " AND number==", i + 1, " LIMIT 3", sep="")
     res <- dbSendQuery(conn=db, sql)
     predicted <- dbFetch(res, n=-1)
-    names(predicted) <- c("Next Possible Word", "Score (Adjusted Freq)")
+    names(predicted) <- c("Another Possible Word", "Prediction Score")
     print(predicted)
     
     if (nrow(predicted) > 0) return(predicted)
@@ -39,3 +54,5 @@ ngram_backoff <- function(raw, db) {
   
   return("Sorry, I couldn't find anything")
 }
+
+#paste(gram)
