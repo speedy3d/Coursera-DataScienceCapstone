@@ -13,8 +13,9 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Word Prediction Application"),
+  titlePanel("Next Word Prediction Application"),
   h4("by Ryan Wissman", style="color:blue"),
+  h3("Created for the JH Coursera Data Science Capstone Project"),
   hr(),
   
   fluidRow(width=3,
@@ -25,25 +26,27 @@ shinyUI(fluidPage(
              a(href="http://www.cs.columbia.edu/~smaskey/CS6998-0412/supportmaterial/langmodel_mapreduce.pdf", 
                "(Brants et al 2007)"), "to predict even when there are unknown N-grams"),
            p("Please note that this tool's prediction capability is limited. Due to processing power and memory limitations only a small subet of", 
-             "data was used from the original Swiftkey dataset, roughly 3.5%")), 
+             "data was used from the original Swiftkey dataset, roughly 3.5%. Total database contains roughly 30,000 N-gram observations")), 
   hr(),
   
-  # Text input area
+  #Text input area
   sidebarLayout(
     sidebarPanel(
-      textInput("text", label = h3("Input"), value = "Here we"),
+      textInput("text", label = h3("Enter Text:"), value = "Here we"),
       helpText("Please type a sentence, the next predicted word will appear on the right."),
       submitButton("Predict next word"),
       hr()
     ),
     
-    # Show the next three predicted words
+    #Show the next three predicted words
     mainPanel(
-      br(),
-      h2(textOutput("sentence"), align="center"),
-      h1(textOutput("predicted"), align="center", style="color:blue"),
+      h4("You Entered: ", align="center"), 
+      h3(textOutput("sentence"), align="center", style="color:gray"),
       hr(),
-      h3("Top 3 Possibilities:", align="center"),
+      h4("Best Next Word Prediction: ", align="center"),
+      h3(textOutput("predicted"), align="center", style="color:blue"),
+      hr(),
+      h3("Top 3 Predicted Possibilities:", align="center"),
       div(tableOutput("alternatives"), align="center")
     )
   )
