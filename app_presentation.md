@@ -6,6 +6,7 @@ autosize: true
 
 Introduction
 ========================================================
+Final application submission for the Johns Hopkins Coursera Data Science Capstone
 
 - Word prediction application created using Swiftkey datasets of twitter, news, and blog natural language text
 - This application utilizes the N-gram model of natural language processing to take a user input and essentially "guess" the next relevant word in the string
@@ -39,8 +40,14 @@ Designed for Speed
 
 Due to limited computing resources this applicaion needed to be designed for speed. Thus a few choices were made that limited the accuracy and depth of the prediction database. Thus the following choices were made:
 
-- I utilized a SQLite database to store the n-grams and frequency table. The database size was limited to about 10mb to maintain high speed. 
-- Due to memory and computing limitations 
+- I utilized a SQLite database to store the n-grams and frequency table. The database size was limited to about 10mb to maintain high speed
+- Due to memory and computing limitations only 3.5% of the original SwiftKey text files (twitter, blogs, and news) were used. If a larger portion was used I would run out of memory when calculating and sorting the n-gram frequency tables
+- Up to quadgrams are used. The Stupid Backoff method could utilize higher order n-grams, but due to the the limiations of my computer and the Shiny hosting service quadgrams (4) were the highest order n-grams used for this application
 
 References
 ========================================================
+Below are some of the numerous resources utilized in the creation of this application. 
+
+- Original code used for processing the SQLite databased used by the application can be found here: https://github.com/speedy3d/Coursera-DataScienceCapstone
+- Stupid Backoff model described by Brants et al 2007: http://www.aclweb.org/anthology/D07-1090
+- Information related to natural language processing: https://en.wikipedia.org/wiki/Natural_language_processing 

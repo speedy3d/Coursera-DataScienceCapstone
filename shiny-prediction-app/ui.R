@@ -40,9 +40,6 @@ shinyUI(fluidPage(
     
     #Show the next three predicted words
     mainPanel(
-      #h4("You Entered: ", align="center"), 
-      #h3(textOutput("sentence"), align="center", style="color:gray"),
-      #hr(),
       h3("Suggested Next Word: ", align="center"),
       h1(textOutput("predicted"), align="center", style="color:green"),
       hr(),
