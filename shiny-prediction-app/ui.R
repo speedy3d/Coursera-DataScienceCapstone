@@ -13,7 +13,7 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("N-Gram Word Predictor"),
+  titlePanel("Word Prediction Application"),
   h4("by Ryan Wissman", style="color:blue"),
   hr(),
   
@@ -41,9 +41,9 @@ shinyUI(fluidPage(
     mainPanel(
       br(),
       h2(textOutput("sentence"), align="center"),
-      h1(textOutput("predicted"), align="center", style="color:blue"),
+      h1(textOutput("predicted"), align="center", style="color:gray"),
       hr(),
-      h3("Top 5 Possibilities:", align="center"),
+      h3("Top 3 Possibilities:", align="center"),
       div(tableOutput("alts"), align="center")
     )
   )

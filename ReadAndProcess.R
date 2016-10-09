@@ -25,9 +25,9 @@ lines_twitter <- length(dataset_twitter)
 
 #Create the clean corpus
 #Use small subset of all three datasets to stay under the appropriate filesize for shiny, this also greatly speeds up processing, will use 12% of each file
-sample_blogs <- readLines(file_blogs, (lines_news*0.12), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
-sample_news <- readLines(file_news, (lines_news*0.12), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
-sample_twitter <- readLines(file_twitter, (lines_twitter*0.12), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_blogs <- readLines(file_blogs, (lines_news*0.012), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_news <- readLines(file_news, (lines_news*0.012), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
+sample_twitter <- readLines(file_twitter, (lines_twitter*0.0012), encoding='UTF-8', warn=FALSE, skipNul=TRUE)
 
 #Merge the three data sets
 dataset_sample <- c(sample_blogs, sample_news, sample_twitter)
@@ -65,6 +65,8 @@ tdm_bigram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = BigramT
 tdm_trigram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = TrigramTokenizer))
 tdm_quadgram <- TermDocumentMatrix(clean_corpus, control = list(tokenize = QuadgramTokenizer))
   
+
+
   
 #Create SQL database
 db <- dbConnect(SQLite(), dbname="shiny-prediction-app/corpus.db")
@@ -76,16 +78,23 @@ dbSendQuery(conn=db,
              number INTEGER)")
 
 #Memory will overload if we do not remove terms with low frequency
-tdm_unigram_cleaned <- (removeSparseTerms(tdm_unigram, 0.9995))
-tdm_bigram_cleaned <- (removeSparseTerms(tdm_bigram, 0.99959))
-tdm_trigram_cleaned <- (removeSparseTerms(tdm_trigram, 0.99986))
-tdm_quadgram_cleaned <- (removeSparseTerms(tdm_quadgram, 0.999957))
+#this section was not used, instead lowered file reads
+#tdm_unigram_cleaned <- (removeSparseTerms(tdm_unigram, 0.9995))
+#tdm_bigram_cleaned <- (removeSparseTerms(tdm_bigram, 0.99959))
+#tdm_trigram_cleaned <- (removeSparseTerms(tdm_trigram, 0.99986))
+#tdm_quadgram_cleaned <- (removeSparseTerms(tdm_quadgram, 0.999957))
 
 #Create word frequencies, functions located in "Functions.R"
 freq_quadgram <- getFrequency(tdm_quadgram_cleaned)
 freq_trigram <- getFrequency(tdm_trigram_cleaned)
 freq_bigram <- getFrequency(tdm_bigram_cleaned)
 freq_unigram <- getFrequency(tdm_unigram_cleaned)
+
+#Create word frequencies, functions located in "Functions.R"
+freq_quadgram <- getFrequency(tdm_quadgram)
+freq_trigram <- getFrequency(tdm_trigram)
+freq_bigram <- getFrequency(tdm_bigram)
+freq_unigram <- getFrequency(tdm_unigram)
 
 #Process with the word before and the current word
 processNGram(freq_quadgram)
