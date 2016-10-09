@@ -9,30 +9,32 @@ library(tm)
 #Ngram stupid backoff method
 #This is from Brants et al 200: http://www.aclweb.org/anthology/D07-1090.pdf.
 ngramStupidBackoff <- function(raw, db) {
-  #Find if n-gram has been seen, if not, multiply by alpha and back off
-  #to lower gram model. Alpha unnecessary here, independent backoffs.
-  
-  #Prediction capable up to quadgrams, thus max for for loop is 3
-  max = 3  
+
+  # Even though prediction capable up to quadgrams, max for for loop is 2 which appears to give better predictions
+  max = 2  
   
   #fix sentance issues from user input
   sentence <- tolower(raw) %>%
-    removePunctuation %>%
-    removeNumbers %>%
-    stripWhitespace %>%
-    str_trim %>%
-    strsplit(split=" ") %>%
-    unlist
+  removePunctuation %>%
+  removeNumbers %>%
+  stripWhitespace %>%
+  str_trim %>%
+  strsplit(split=" ") %>%
+  unlist
   
 
   #get prediction
-  for (i in min(length(sentence), max):1) {
-    gram <- paste(tail(sentence, i), collapse=" ")
+  for (cNum in min(length(sentence), max):1) {
+    foundGram <- paste(tail(sentence, cNum), collapse=" ")
+    
+    #Try to match to a prediction in the corpus.db SQL database
     sql <- paste("SELECT word, frequency FROM NGram WHERE ", 
-                 " prediction=='", paste(gram), "'",
-                 " AND number==", i + 1, " LIMIT 3", sep="")
-    res <- dbSendQuery(conn=db, sql)
-    predicted <- dbFetch(res, n=-1)
+                 " prediction=='", paste(foundGram), "'",
+                 " AND number==", cNum + 1, " LIMIT 3", sep="")
+    
+    #Retrieve the result
+    result <- dbSendQuery(conn=db, sql)
+    predicted <- dbFetch(result, n=-1)
     names(predicted) <- c("Another Possible Word", "Prediction Score")
     print(predicted)
     
@@ -40,7 +42,6 @@ ngramStupidBackoff <- function(raw, db) {
       return(predicted)
   }
   
+  #If unable to find any words
   return("Sorry, no prediction is available.")
 }
-
-#paste(gram)

@@ -18,7 +18,7 @@ shinyUI(fluidPage(
   h3("Created for the JH Coursera Data Science Capstone Project"),
   hr(),
   
-  fluidRow(width=3,
+  fluidRow(width=2,
            p("Using the text input field below input any small sized sentence you like and the algorithm will predict which word will come next."),
            p("The model used by this algorithm is N-gram",
              a(href="http://en.wikipedia.org/wiki/N-gram", "n-gram"),
@@ -32,7 +32,7 @@ shinyUI(fluidPage(
   #Text input area
   sidebarLayout(
     sidebarPanel(
-      textInput("text", label = h3("Enter Text:"), value = "Here we"),
+      textInput("text", label = h4("Enter Text:"), value = "Up"),
       helpText("Please type a sentence, the next predicted word will appear on the right."),
       submitButton("Predict next word"),
       hr()
@@ -40,13 +40,13 @@ shinyUI(fluidPage(
     
     #Show the next three predicted words
     mainPanel(
-      h4("You Entered: ", align="center"), 
-      h3(textOutput("sentence"), align="center", style="color:gray"),
-      hr(),
-      h4("Best Next Word Prediction: ", align="center"),
+      #h4("You Entered: ", align="center"), 
+      #h3(textOutput("sentence"), align="center", style="color:gray"),
+      #hr(),
+      h3("Suggested Next Word: ", align="center"),
       h3(textOutput("predicted"), align="center", style="color:blue"),
       hr(),
-      h3("Top 3 Predicted Possibilities:", align="center"),
+      h3("Top 3 Predictions:", align="center"),
       div(tableOutput("alternatives"), align="center")
     )
   )
