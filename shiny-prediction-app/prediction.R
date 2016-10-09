@@ -8,16 +8,10 @@ library(tm)
 
 #Ngram stupid backoff method
 #This is from Brants et al 200: http://www.aclweb.org/anthology/D07-1090.pdf.
-ngramStupidBackoff <- function(raw, db) {
+ngramStupidBackoff <- function(userInputSentence, db) {
   
   #fix potential sentance issues from user input before we start the prediction
-  sentence <- tolower(raw) %>%
-  removePunctuation %>%
-  removeNumbers %>%
-  stripWhitespace %>%
-  str_trim %>%
-  strsplit(split=" ") %>%
-  unlist
+  sentence <- tolower(userInputSentence) %>% removePunctuation %>% removeNumbers %>% stripWhitespace %>% str_trim %>% strsplit(split=" ") %>% unlist
   
   #get prediction
   #set the max for the loop
