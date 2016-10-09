@@ -33,7 +33,7 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       textInput("text", label = h4("Enter Text:"), value = "Up"),
-      helpText("Please type a sentence, the next predicted word will appear on the right."),
+      helpText("Please type a sentence, the next predicted word will appear on the right in green."),
       submitButton("Predict next word"),
       hr()
     ),
@@ -44,10 +44,12 @@ shinyUI(fluidPage(
       #h3(textOutput("sentence"), align="center", style="color:gray"),
       #hr(),
       h3("Suggested Next Word: ", align="center"),
-      h2(textOutput("predicted"), align="center", style="color:green"),
+      h1(textOutput("predicted"), align="center", style="color:green"),
       hr(),
       h3("Top 3 Next Word Predictions:", align="center"),
-      div(tableOutput("alternatives"), align="center")
+      #h5("Associated score relates to frequency of predicted ngram in database as it relates to the input", align="center")
+      div(tableOutput("alternatives"), align="center"),
+      h5("Associated score relates to frequency of predicted ngram in database as it relates to the input", align="center")
     )
   )
   ))

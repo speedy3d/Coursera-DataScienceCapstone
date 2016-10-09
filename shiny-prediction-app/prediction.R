@@ -9,11 +9,8 @@ library(tm)
 #Ngram stupid backoff method
 #This is from Brants et al 200: http://www.aclweb.org/anthology/D07-1090.pdf.
 ngramStupidBackoff <- function(raw, db) {
-
-  # Even though prediction capable up to quadgrams, max for for loop is 2 which appears to give better predictions
-  max = 2  
   
-  #fix sentance issues from user input
+  #fix potential sentance issues from user input before we start the prediction
   sentence <- tolower(raw) %>%
   removePunctuation %>%
   removeNumbers %>%
@@ -23,13 +20,14 @@ ngramStupidBackoff <- function(raw, db) {
   unlist
   
   #get prediction
-  for (cNum in min(length(sentence), max):1) {
+  #set the max for the loop
+  # Even though prediction capable up to quadgrams, max for for loop is 2 which appears to give better predictions
+  maximum = 2
+  for (cNum in min(length(sentence), maximum):1) {
     foundGram <- paste(tail(sentence, cNum), collapse=" ")
     
-    #Try to match to a prediction in the corpus.db SQL database
-    sql <- paste("SELECT word, frequency FROM NGram WHERE ", 
-                 " prediction=='", paste(foundGram), "'",
-                 " AND number==", cNum + 1, " LIMIT 3", sep="")
+    #Try to match to a prediction in the corpus.db SQL database, SQL greatly speeds up retrieval
+    sql <- paste("SELECT word, frequency FROM NGram WHERE ", " prediction=='", paste(foundGram), "'", " AND number==", cNum + 1, " LIMIT 3", sep="")
     
     #Retrieve the result
     result <- dbSendQuery(conn=db, sql)
@@ -37,6 +35,7 @@ ngramStupidBackoff <- function(raw, db) {
     names(predicted) <- c("Another Possible Word", "Prediction Score")
     print(predicted)
     
+    #if we get a prediction, return
     if (nrow(predicted) > 0) 
       return(predicted)
   }
