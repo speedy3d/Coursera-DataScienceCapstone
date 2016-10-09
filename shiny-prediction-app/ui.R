@@ -44,9 +44,9 @@ shinyUI(fluidPage(
       #h3(textOutput("sentence"), align="center", style="color:gray"),
       #hr(),
       h3("Suggested Next Word: ", align="center"),
-      h3(textOutput("predicted"), align="center", style="color:blue"),
+      h2(textOutput("predicted"), align="center", style="color:green"),
       hr(),
-      h3("Top 3 Predictions:", align="center"),
+      h3("Top 3 Next Word Predictions:", align="center"),
       div(tableOutput("alternatives"), align="center")
     )
   )
