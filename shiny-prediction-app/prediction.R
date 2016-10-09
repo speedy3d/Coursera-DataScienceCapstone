@@ -8,7 +8,7 @@ library(tm)
 
 #Ngram backoff function
 #This is from Brants et al 2007.
-ngram_backoff <- function(raw, db) {
+ngramBackoff <- function(raw, db) {
   #Find if n-gram has been seen, if not, multiply by alpha and back off
   #to lower gram model. Alpha unnecessary here, independent backoffs.
   
@@ -38,7 +38,7 @@ ngram_backoff <- function(raw, db) {
     if (nrow(predicted) > 0) return(predicted)
   }
   
-  return("Sorry, I couldn't find anything")
+  return("Sorry, no prediction is available.")
 }
 
 #paste(gram)

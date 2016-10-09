@@ -12,15 +12,16 @@ library(RSQLite)
 source('prediction.R')
 
 shinyServer(function(input, output) {
-  # input$text and input$action are available
-  # output$sentence and output$predicted should be made available
+  #connect to the database
   db <- dbConnect(SQLite(), dbname="corpus.db")
-  dbout <- reactive({ngram_backoff(input$text, db)})
+  
+  #Use ngramBackoff function found witin prediction.R a a reaction
+  dbout <- reactive({ngramBackoff(input$text, db)})
   
   output$sentence <- renderText({input$text})
   output$predicted <- renderText({
     out <- dbout()
-    if (out[[1]] == "Sorry, I couldn't find anything") {
+    if (out[[1]] == "Sorry, no prediction is available.") {
       return(out)
     } else {
       return(unlist(out)[1])
