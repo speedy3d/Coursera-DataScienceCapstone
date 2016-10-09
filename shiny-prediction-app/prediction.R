@@ -6,15 +6,16 @@ library(stringr)
 library(RSQLite)
 library(tm)
 
-#Ngram backoff function
-#This is from Brants et al 2007.
-ngramBackoff <- function(raw, db) {
+#Ngram stupid backoff method
+#This is from Brants et al 200: http://www.aclweb.org/anthology/D07-1090.pdf.
+ngramStupidBackoff <- function(raw, db) {
   #Find if n-gram has been seen, if not, multiply by alpha and back off
   #to lower gram model. Alpha unnecessary here, independent backoffs.
   
-  max = 3  # max n-gram - 1
+  #Prediction capable up to quadgrams, thus max for for loop is 3
+  max = 3  
   
-  #fix sentance issues
+  #fix sentance issues from user input
   sentence <- tolower(raw) %>%
     removePunctuation %>%
     removeNumbers %>%
@@ -35,7 +36,8 @@ ngramBackoff <- function(raw, db) {
     names(predicted) <- c("Another Possible Word", "Prediction Score")
     print(predicted)
     
-    if (nrow(predicted) > 0) return(predicted)
+    if (nrow(predicted) > 0) 
+      return(predicted)
   }
   
   return("Sorry, no prediction is available.")

@@ -18,33 +18,33 @@ shinyUI(fluidPage(
   hr(),
   
   fluidRow(width=3,
-           p("Enter a sentence, hit enter (or press the 'Predict next' button), and see what the 
-             algorithm thinks will come next!"),
-           p("The underlying model is an",
+           p("Using the text input field below input any small sized sentence you like and the algorithm will predict which word will come next."),
+           p("The model used by this algorithm is N-gram",
              a(href="http://en.wikipedia.org/wiki/N-gram", "n-gram"),
-             "model, with quadgrams from a dataset of Twitter, news articles, 
-             and blog posts. It uses 'Stupid Backoff'",
+             "model, and used unigrams, bigrams, trigrams, and quadgrams derived from the SwiftKey dataset. It uses 'Stupid Backoff'",
              a(href="http://www.cs.columbia.edu/~smaskey/CS6998-0412/supportmaterial/langmodel_mapreduce.pdf", 
-               "(Brants et al 2007)"), "to deal with unseen n-grams.")),
+               "(Brants et al 2007)"), "to predict even when there are unknown N-grams"),
+           p("Please note that this tool's prediction capability is limited. Due to processing power and memory limitations only a small subet of", 
+             "data was used from the original Swiftkey dataset, roughly 3.5%")), 
   hr(),
   
-  # Sidebar with a slider input for the number of bins
+  # Text input area
   sidebarLayout(
     sidebarPanel(
-      textInput("text", label = h3("Input"), value = "Happy"),
-      helpText("Type in a sentence above, hit enter (or press the button below), and the results will display to the right."),
-      submitButton("Predict next"),
+      textInput("text", label = h3("Input"), value = "Here we"),
+      helpText("Please type a sentence, the next predicted word will appear on the right."),
+      submitButton("Predict next word"),
       hr()
     ),
     
-    # Show a plot of the generated distribution
+    # Show the next three predicted words
     mainPanel(
       br(),
       h2(textOutput("sentence"), align="center"),
-      h1(textOutput("predicted"), align="center", style="color:gray"),
+      h1(textOutput("predicted"), align="center", style="color:blue"),
       hr(),
       h3("Top 3 Possibilities:", align="center"),
-      div(tableOutput("alts"), align="center")
+      div(tableOutput("alternatives"), align="center")
     )
   )
   ))
